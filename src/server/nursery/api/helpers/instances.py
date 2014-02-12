@@ -47,11 +47,17 @@ class Instances():
         """just copy the files (old+new) to a new location on the instances"""
         # get the last folder from instance and copy it to the new location
         hosts = []
+        i_by_host = {}
         for instance in instances:
             hosts.append(instance['ip'])
-        with settings(parallel=True, hosts = hosts):
+            i_by_host[instance['ip']] = instance
+        with settings(parallel=True, hosts = hosts):            
+            env.user = i_by_host[env.host]['user']
+            env.key_filename = i_by_host[env.host]['key_file_path']
+            env.port = i_by_host[env.host]['port']
+            
             # create new folder in deployment_path with name deploy_id
-            TODO
+            run(mkdir)
             # copy in new location latest updated directory from machine
             TODO
             #
@@ -71,14 +77,21 @@ class Instances():
     @staticmethod
     def _send_event_to(event_name, instances, files):
         hosts = []
+        pems = []
         for instance in instances:
-            hosts.append(instance['ip'])
-        with settings(parallel=True, hosts = hosts):
-            # the env variables are global so all instances need to accept the same login
-            env.user = instance['user']
-            env.key_filename = instance['key_file_path']
-            env.port = instance['port']
-            execute(Instances._send_event_to_instance, event_name, instance, files)
+            host_string = instance['ip']
+            user = instance['user']
+            port = instance['port']
+            host_string = "%s@%s" % (user, host_string)
+            host_string = "%s:%s" % (host_string,port)            
+            hosts.append(host_string)
+            pems.append(instance['key_file_path'])
+            
+        with settings(parallel=True):
+            for idx, val in enumerate(hosts):            
+                env.host_string = val
+                env.key_filename = pems[idx]
+                execute(Instances._send_event_to_instance, event_name, instance, files)
              
     
     @staticmethod

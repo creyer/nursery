@@ -25,6 +25,8 @@ def _list_files_in_deploy(self, deployment_id , run = 1):
     This async is taking care of getting the file list affected by this deployment
     The files could be already specified by a git hook or it could be searched for
     This method handles deployments with hashes only
+    At the end of this method another async call will be issued to continue the
+    deployment process
     """
     status = 1
     deployment = DeployWrapper.get_deployment(deployment_id)
@@ -66,7 +68,7 @@ def _deploy_instances(self, deployment_id , instances):
     deployment = DeployWrapper.get_deployment(deployment_id)
     deployment.status = DeploymentStatus.STARTED + status
     deployment.save()
-    Git.deploy_on_instances(instances)
+    Instances.deploy(deployment_id,instances,deployment.files)
     #incerase the status for we have deployed
     status = 15
     deployment = DeployWrapper.get_deployment(deployment_id)
