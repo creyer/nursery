@@ -12,3 +12,5 @@ Why ?
 Why do we need another deploy system ? 
 * Because this deploy system aims to be very fast. It will only deploy what files have been changed since the last deployment. 
 * Because offers a clear separation between software packages and system packages administration. As a developer I'm concerned with deploying my code and I care less of system administration. The main idea is that the code changes more often then the underlying system, so it make sense to have different way of administration for each one.
+* Because sometimes under the same git repo we have different projects with diferentdeployment strategies 
+* Because you might have some strange infrastructure configuration
