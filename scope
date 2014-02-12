@@ -1,0 +1,29 @@
+no way to test changes in deploy system
+db 
+    local database
+    cine, pe ce branch, repo, masini, timestamp  (evetn -> start, ended)
+
+deploy repo(github sau local sau bitbucket) hash code (default head of the master)
+
+rolback (default hash din db)
+status -> current hash si previous hash
+
+deployment based on machine metadata adn tags
+
+push -> deploy
+notificari pe mail si campfire
+no concurent deployments on master, but allowed on staging
+
+run before deployment/ run after deployment (pt database migrations)
+/run backwords () < pt migrari inapoi
+
+
+====
+Program
+- establish dev software
+- read command line
+- because we want blocking and non blicking -> we want deployments to be added to a queue
+- comunication with database (should be a module)
+- comunication with a server, get back when u have done something, closure
+- get meta info from the amazon machines
+- get comunication with github

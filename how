@@ -1,0 +1,55 @@
+database layer
+    sqlite
+        what:
+            write
+            read
+        schema:
+            deployment id, // a deployment could have multiple inserts of events in the db            
+            person name and email, 
+            repo, 
+            branch, 
+            hash,
+            on what instances, 
+            timestamp, 
+            event(pre,start,end,after,deployed),
+            script run (some events could have scripts attached),
+            
+        implementation: git style, rollback = new line written
+
+define unit tests
+do send notifications by mail & campfire
+concurent vs non concurent deployments
+
+
+commands:
+    deploy [options] 
+        --hash -> Hash value you want to deploy
+        --db_migration_script -> if present will execute the script for migration the script
+    status [options]
+        --last -> int value for how long in the past to look in the db
+    rollback [options]
+        --hash -> Hash value to which you want to roll back
+        --rollback_script -> script to be rolled
+    init [options] -> init a new local setup for your repo, 
+                      if a repo is already initiated you this will result in an error
+                      should contain a dictionary with scripts to be executed on some events 
+                      and the metatags of the machines and also other options
+    modify_script -> modify some settings like the startup script
+        --name the script name u want to modify and the new script and properties
+        DEFINE WHAT
+        a script has the following props
+        "script":{
+            name: "name of the script",
+            script: "url of the script",
+            event: "name of the event" - when to run script
+            follow: "repo or url of the folder that will be tracked for the event dispatched"
+        }
+        DEFINE WHERE
+        a instance meta has the following props 
+        "instance-meta": {
+            name: "the tag name, if present on that instance that instance will be deployed to",
+            follow: "repo or url of the folder that will be tracked for the event dispatched"            
+            restart: "command to restart the instance after the deployment"
+        }
+
+    

@@ -1,0 +1,31 @@
+repo:
+    - full_url we need it for deploy
+branch:
+    - the name of the branch for which we set up this config
+    - allow multiple deploys
+    deploy_scripts:
+        # list of scripts involved in the deployment procedure
+        front_end:
+            follow:
+                # list of folders for which we want to run the script
+            instances:
+                #the meta name for which we desire to do the deployment
+            script:
+                # relative url to the script    
+            event:
+                # name of the event when we want the script to run    
+                # possible events are:    
+                    # pre - before any instance is touced            
+                    # start - before any files have been copyied on the instance in a new hash location
+                    # updated - files have been copied but the old version is still in place
+                    # end - the new version is in
+                    # deployed - all instances have been updated
+    allow_multiple_deploy:
+        #if this is set to true then only one deploy can go in, rest will result in allert
+
+
+instances:
+    git repo
+    name:
+        meta-name
+        folders on which deploy should be trigered
